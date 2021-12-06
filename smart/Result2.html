@@ -1,0 +1,28 @@
+{{ block title }}結果{{ endblock }}
+{{ block content }}
+
+<p>
+    結果は次のようになりました。
+</p>
+
+<br/>
+<p>「{{ player.id_in_group }}」人中「{{ group.total_fakenews }}」人がフェイクニュースに騙されるほうだと「思わない」を選択しました。</p>
+
+<br/>
+
+<p>「{{ player.id_in_group }}」人中「{{ group.total_meta_fakenews }}」人がフェイクニュースの質問について「多数派」を選択しました。</p>
+
+<br/>
+
+
+
+{{ formfields }}
+
+
+
+
+
+
+{{ next_button }}
+
+{{ endblock }}
