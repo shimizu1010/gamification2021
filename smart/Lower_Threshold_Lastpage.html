@@ -1,1 +1,39 @@
-{{ block title }}ゲームの参加者の数が足りないため結果を表示できません。<br/>時間がたってからアクセスしてください。{{ endblock }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+
+
+<style>
+    .otree-body {
+        background: #F4F5F7;
+        font-family:Helvetica;
+        font-size: 20px;
+        line-height: 1.6;
+        letter-spacing: 0;
+
+    }
+    .otree-title{
+        font-family: 'Rampart One', cursive;
+        font-size: 80px;
+
+    }
+    .otree-btn-next {
+        border: none;
+
+        padding: 0.7em 1.7em;
+        font-size: 18px;
+        border-radius: 0.5em;
+
+        border: 1px solid #e8e8e8;
+        transition: all .3s;
+        box-shadow: 6px 6px 12px #c5c5c5,
+                    -6px -6px 12px #ffffff;
+        }
+
+</style>
+
+{{ block title }}参加者が少ないため結果を表示できません。<br/>時間がたってからアクセスしてください。{{ endblock }}
