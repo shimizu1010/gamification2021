@@ -68,6 +68,8 @@ class Player(BasePlayer):
 
 #def check():
  #   ratio = self.group.total_smart / self.id_in_group
+class Start_Page(Page):
+    pass
 
 class Survery1(Page):
     form_model = 'player'
@@ -120,4 +122,4 @@ class Higher_Threshold_Lastpage(Page):
 class Lower_Threshold_Lastpage(Page):
     pass
 
-page_sequence = [Survery1, Survery2, Result1, Survery3, Survery4, Result2, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
+page_sequence = [Start_Page, Survery1, Survery2, Result1, Survery3, Survery4, Result2, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]

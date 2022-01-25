@@ -1,4 +1,5 @@
-{{ block title }}
+{{ block title }}メタ認知ゲーム{{ endblock }}
+{{ block content }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
@@ -10,6 +11,7 @@
 
 <style>
     .otree-body {
+        text-align:center;
         background: #F4F5F7;
         font-family:Helvetica;
         font-size: 20px;
@@ -20,11 +22,10 @@
     .otree-title{
         font-family: 'Rampart One', cursive;
         font-size: 80px;
-
+        text-align:center;
     }
     .otree-btn-next {
         border: none;
-
         padding: 0.7em 1.7em;
         font-size: 18px;
         border-radius: 0.5em;
@@ -36,5 +37,16 @@
         }
 
 </style>
-参加者が少ないため結果を表示できません。<br/>時間がたってからアクセスしてください。
+<br/>
+<br/>
+<p>
+    メタ認知ゲームを始めます。下のボタンをクリックしてください。
+</p>
+<br/>
+
+{{ formfields }}
+
+
+{{ next_button }}
+
 {{ endblock }}
