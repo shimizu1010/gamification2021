@@ -103,19 +103,19 @@ class Result1(Page):
     @staticmethod
     def is_displayed(player):
         print("idは",player.id_in_group)
-        return player.id_in_group >= 5
+        return player.id_in_group >= 3
 
 class Result2(Page):
     @staticmethod
     def is_displayed(player):
         print("idは",player.id_in_group)
-        return player.id_in_group >= 5
+        return player.id_in_group >= 3
 
 class Higher_Threshold_Lastpage(Page):
     @staticmethod
     def is_displayed(player):
         print("idは",player.id_in_group)
-        return player.id_in_group >= 5
+        return player.id_in_group >= 3
 
 class Lower_Threshold_Lastpage(Page):
     pass
