@@ -42,18 +42,18 @@
     結果は次のようになりました。
 </p>
 
-<p>「{{ group.number }}」人中「{{ group.total_fakenews }}」人が平均よりも「賢い」を選択しました。</p>
+<p>「{{ group.number }}」人中「{{ group.total_smart }}」人が平均よりも「賢い」を選択しました。</p>
 
+<!--テスト、{%%}を二重にして書く必要がある-->
+{% if group.number >= 0 %}{% if group.number >= 1 %}あなたは少数派です{% endif %}{% endif %}
 <br/>
 
-<p>「{{ group.number }}」人中「{{ group.total_meta_fakenews }}」人がフェイクニュースの質問について「多数派」を選択しました。</p>
+<p>「{{ group.number }}」人中「{{ group.total_meta_smart }}」人が賢さの質問について「多数派」を選択しました。</p>
 
 <br/>
 
 
 {{ formfields }}
-
-
 
 {{ next_button }}
 

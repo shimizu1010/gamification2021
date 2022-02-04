@@ -14,6 +14,7 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    score = models.IntegerField()
     total_smart = models.IntegerField()
     total_meta_smart = models.IntegerField()
     total_fakenews = models.IntegerField()
@@ -37,6 +38,7 @@ class Group(BaseGroup):
 
         meta_fakenewses = [p.meta_fakenews for p in self.get_players()]
         self.total_meta_fakenews = sum(meta_fakenewses)
+
     
     def result_compute(self):
         if 0.5 <= (self.total_smart / self.number):
@@ -50,10 +52,6 @@ class Group(BaseGroup):
 
 
 
-
-
-
-
 class Player(BasePlayer):
     smart = models.IntegerField(choices=[[0, '賢くない'],[1, '賢い']], label='あなたは平均的な人々と比べて賢いですか？', widget=widgets.RadioSelect, initial=0)
 
@@ -64,15 +62,6 @@ class Player(BasePlayer):
     meta_fakenews = models.IntegerField(choices=[[0, '少数派'],[1, '多数派']], label='前の質問で、あなたが答えた回答は多数派か少数派のどちらだと思いますか？', widget=widgets.RadioSelect, initial=0)
 
 
-#check
-
-#def check(self, player.smart, b):
-  #  c = self.a + self.b
- #   print(c)
-
-
-#def check():
- #   ratio = self.group.total_smart / self.id_in_group
 class Start_Page(Page):
     pass
 
@@ -82,6 +71,7 @@ class Survery1(Page):
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
+        #参加者の人数をカウント
         self.group.number += 1
         print('＋1')
 
@@ -130,7 +120,6 @@ class Higher_Threshold_Lastpage(Page):
 
 class Lower_Threshold_Lastpage(Page):
     pass
-
 
 
 page_sequence = [Start_Page, Survery1, Survery2, Result1, Survery3, Survery4, Result2, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
