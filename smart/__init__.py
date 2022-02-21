@@ -1,3 +1,4 @@
+#問題文の表示は直すひつようがある。
 from otree.api import *
 c = cu
 
