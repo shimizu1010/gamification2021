@@ -13,14 +13,53 @@ class Subsession(BaseSubsession):
     pass
 
 class Group(BaseGroup):
+    number = models.IntegerField(initial=0)
     score = models.IntegerField()
+
+
     total_universe = models.IntegerField()
     total_meta_universe = models.IntegerField()
+    universe_text = models.StringField()
+
+
     total_color = models.IntegerField()
     total_meta_color = models.IntegerField()
-    number = models.IntegerField(initial=0)
-    universe_text = models.StringField()
     color_text = models.StringField()
+
+
+    total_conspiracy_theory = models.IntegerField()
+    total_meta_conspiracy_theory = models.IntegerField()
+    conspiracy_theory_text = models.StringField()
+
+
+    total_intelligence = models.IntegerField()
+    total_meta_intelligence = models.IntegerField()
+    intelligence_text = models.StringField()
+
+
+    total_dress = models.IntegerField()
+    total_meta_dress = models.IntegerField()
+    dress_text = models.StringField()
+
+
+    total_shoes = models.IntegerField()
+    total_meta_shoes = models.IntegerField()
+    shoes_text = models.StringField()
+
+
+    total_fakenews = models.IntegerField()
+    total_meta_fakenews = models.IntegerField()
+    fakenews_text = models.StringField()
+
+
+    total_tour = models.IntegerField()
+    total_meta_tour = models.IntegerField()
+    tour_text = models.StringField()
+
+
+    total_vaccine = models.IntegerField()
+    total_meta_vaccine = models.IntegerField()
+    vaccine_text = models.StringField()
 
 
     def compute(self):
@@ -35,6 +74,7 @@ class Group(BaseGroup):
 
         meta_colors = [p.meta_color for p in self.get_players()]
         self.total_meta_color = sum(meta_colors)
+        #以降をやる
 
     
     def result_compute(self):
@@ -46,6 +86,7 @@ class Group(BaseGroup):
             self.color_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
         else :
             self.color_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
+        #以降をやる
 
 
 class Player(BasePlayer):
@@ -62,7 +103,7 @@ class Player(BasePlayer):
 
 
     intelligence = models.IntegerField(choices=[[0, 'はい'],[1, 'いいえ']], label='自分は正直、平均的な人よりは知能が高いと思う', widget=widgets.RadioSelect, initial=0)
-    meta_inteligence = models.IntegerField(choices=[[0, '多数派'],[1, '少数派']], label='前の質問で、あなたが答えた回答は多数派だと想いますか、少数派だと思いますか？', widget=widgets.RadioSelect, initial=0)
+    meta_intelligence = models.IntegerField(choices=[[0, '多数派'],[1, '少数派']], label='前の質問で、あなたが答えた回答は多数派だと想いますか、少数派だと思いますか？', widget=widgets.RadioSelect, initial=0)
 
 
     dress = models.IntegerField(choices=[[0, '白と金'],[1, '青と黒']], label='このドレスの色は？', widget=widgets.RadioSelect, initial=0)
@@ -117,6 +158,7 @@ class Universe_result(Page):
         print("idは",player.id_in_group)
         return player.id_in_group >= 3
 
+
 class Color(Page):
     form_model = 'player'
     form_fields = ['color']
@@ -138,6 +180,161 @@ class Color_result(Page):
         print("idは",player.id_in_group)
         return player.id_in_group >= 3
 
+
+class Conspiracy_theory(Page):
+    form_model = 'player'
+    form_fields = ['conspiracy_theory']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Conspiracy_theory_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_conspiracy_theory']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Conspiracy_theory_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Intelligence(Page):
+    form_model = 'player'
+    form_fields = ['intelligence']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Intelligence_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_intelligence']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Intelligence_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Dress(Page):
+    form_model = 'player'
+    form_fields = ['dress']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Dress_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_dress']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Dress_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Shoes(Page):
+    form_model = 'player'
+    form_fields = ['shoes']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Shoes_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_shoes']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Shoes_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Fakenews(Page):
+    form_model = 'player'
+    form_fields = ['fakenews']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Fakenews_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_fakenews']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Fakenews_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Tour(Page):
+    form_model = 'player'
+    form_fields = ['tour']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Tour_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_tour']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Tour_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
+class Vaccine(Page):
+    form_model = 'player'
+    form_fields = ['vaccine']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+
+class Vaccine_meta(Page):
+    form_model = 'player'
+    form_fields = ['meta_vaccine']
+    @staticmethod
+    def before_next_page(self, timeout_happened):
+        self.group.compute()
+        self.group.result_compute()
+
+class Vaccine_result(Page):
+    @staticmethod
+    def is_displayed(player):
+        print("idは",player.id_in_group)
+        return player.id_in_group >= 3
+
+
 class Higher_Threshold_Lastpage(Page):
     @staticmethod
     def is_displayed(player):
@@ -149,4 +346,4 @@ class Lower_Threshold_Lastpage(Page):
     pass
 
 
-page_sequence = [Start_Page, Universe, Universe_meta, Universe_result, Color, Color_meta, Color_result, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
+page_sequence = [Start_Page, Universe, Universe_meta, Universe_result, Color, Color_meta, Color_result, Conspiracy_theory, Conspiracy_theory_meta, Conspiracy_theory_result, Intelligence, Intelligence_meta, Intelligence_result, Dress, Dress_meta, Dress_result, Shoes, Shoes_meta, Shoes_result, Fakenews, Fakenews_meta, Fakenews_result, Tour, Tour_meta, Tour_result, Vaccine, Vaccine_meta, Vaccine_result, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
