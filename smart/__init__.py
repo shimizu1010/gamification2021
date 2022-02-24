@@ -16,69 +16,122 @@ class Group(BaseGroup):
     number = models.IntegerField(initial=0)
     score = models.IntegerField()
 
-
     total_universe = models.IntegerField()
     total_universe_0 = models.IntegerField()
     total_meta_universe = models.IntegerField()
     universe_text = models.StringField()
     universe_point = models.IntegerField()
 
+
     total_color = models.IntegerField()
+    total_color_0 = models.IntegerField()
     total_meta_color = models.IntegerField()
     color_text = models.StringField()
+    color_point = models.IntegerField()
 
 
     total_conspiracy_theory = models.IntegerField()
+    total_conspiracy_theory_0 = models.IntegerField()
     total_meta_conspiracy_theory = models.IntegerField()
     conspiracy_theory_text = models.StringField()
+    conspiracy_theory_point = models.IntegerField()
 
 
     total_intelligence = models.IntegerField()
+    total_intelligence_0 = models.IntegerField()
     total_meta_intelligence = models.IntegerField()
     intelligence_text = models.StringField()
+    intelligence_point = models.IntegerField()
 
 
     total_dress = models.IntegerField()
+    total_dress_0 = models.IntegerField()
     total_meta_dress = models.IntegerField()
     dress_text = models.StringField()
+    dress_point = models.IntegerField()
 
 
     total_shoes = models.IntegerField()
+    total_shoes_0 = models.IntegerField()
     total_meta_shoes = models.IntegerField()
     shoes_text = models.StringField()
+    shoes_point = models.IntegerField()
 
 
     total_fakenews = models.IntegerField()
+    total_fakenews_0 = models.IntegerField()
     total_meta_fakenews = models.IntegerField()
     fakenews_text = models.StringField()
+    fakenews_point = models.IntegerField()
 
 
     total_tour = models.IntegerField()
+    total_tour_0 = models.IntegerField()
     total_meta_tour = models.IntegerField()
     tour_text = models.StringField()
+    fakenews_point = models.IntegerField()
 
 
     total_vaccine = models.IntegerField()
+    total_vaccine_0 = models.IntegerField()
     total_meta_vaccine = models.IntegerField()
     vaccine_text = models.StringField()
+    vaccine_point = models.IntegerField()
 
 
 
     #playerオブジェクトから質問の得点を取ってきて、合計を格納
     def compute(self):
+        def cal(number, answer, meta_answer, total):
+            if meta_answer[number - 1] == 0:
+                if answer[number - 1] == 0:
+                    if total / number <= 0.5:
+                        point = 1, 
+                        text = "正解！ 多数派があなたと同じように考えています"
+                    else:
+                        point = 0
+                        text = "不正解！ 多数派はあなたと同じように考えていません"
+                elif answer[number - 1] == 1:
+                    if total / number >= 0.5:
+                        point = 1
+                        text = "正解！ 多数派があなたと同じように考えています"
+                    else:
+                        point = 0
+                        text = "不正解！ 多数派はあなたと同じように考えていません"
+            elif meta_answer[number - 1] == 1:
+                if answer[number - 1] == 0:
+                    if total / number >= 0.5:
+                        point = 1
+                        text = "正解！ 少数派があなたと同じように考えています"
+                    else:
+                        point = 0
+                        text = "不正解！ 少数派はあなたと同じように考えていません"
+                elif answer[number - 1] == 1:
+                    if total / number <= 0.5:
+                        point = 1
+                        text = "正解！ 少数派があなたと同じように考えています"
+                    else:
+                        point = 0
+                        text = "不正解！ 少数派はあなたと同じように考えていません"
+            return text
+        
         universes = [p.universe for p in self.get_players()]
-        print(universes)
-        #print(self.number)
-        print(universes[self.number -1])
         self.total_universe = sum(universes)
         self.total_universe_0 = self.number - self.total_universe
-        print(self.total_universe)
         meta_universes = [p.meta_universe for p in self.get_players()]
-        self.total_meta_universe = sum(meta_universes)
+        #self.total_meta_universe = sum(meta_universes)
+        self.universe_text = cal(self.number, universes, meta_universes, self.total_universe)
 
-        #実装する
-        #多数派0と答えた場合
-        if meta_universes[self.number - 1] == 0:
+
+        colors = [p.color for p in self.get_players()]
+        self.total_color = sum(colors)
+        self.total_color_0 = self.number - self.total_color
+        meta_colors = [p.meta_color for p in self.get_players()]
+        self.color_text = cal(self.number, colors, meta_colors, self.total_color)
+
+
+
+        """if meta_universes[self.number - 1] == 0:
             print("多数派と答えている")
             if universes[self.number - 1] == 0:
                 print("はいと答えている")
@@ -87,7 +140,7 @@ class Group(BaseGroup):
                     self.universe_text = "正解！ 多数派があなたと同じように考えています"
                 else:
                     self.universe_point = 0
-                    self.universe_text = "不正解！ 多数派があなたと同じように考えていません"
+                    self.universe_text = "不正解！ 多数派はあなたと同じように考えていません"
             elif universes[self.number - 1] == 1:
                 print("いいえと答えている")
                 if self.total_universe / self.number >= 0.5:
@@ -95,18 +148,28 @@ class Group(BaseGroup):
                     self.universe_text = "正解！ 多数派があなたと同じように考えています"
                 else:
                     self.universe_point = 0
-                    self.universe_text = "不正解！ 多数派があなたと同じように考えていません"
-
-            #はい0と答えた場合
-            #if universes[self.number - 1] == 0:
-                #if universes / self.number <= 0.5:
-                    #point = '正しい'
-                    #print(point)
-                #else:
-                    #point = '間違っている'
-                   # print(point)
+                    self.universe_text = "不正解！ 多数派はあなたと同じように考えていません"
+        elif meta_universes[self.number - 1] == 1:
+            print("少数派と答えている")
+            if universes[self.number - 1] == 0:
+                print("はいと答えている")
+                if self.total_universe / self.number >= 0.5:
+                    self.universe_point = 1
+                    self.universe_text = "正解！ 少数派があなたと同じように考えています"
+                else:
+                    self.universe_point = 0
+                    self.universe_text = "不正解！ 少数派はあなたと同じように考えていません"
+            elif universes[self.number - 1] == 1:
+                print("いいえと答えている")
+                if self.total_universe / self.number <= 0.5:
+                    self.universe_point = 1
+                    self.universe_text = "正解！ 少数派があなたと同じように考えています"
+                else:
+                    self.universe_point = 0
+                    self.universe_text = "不正解！ 少数派はあなたと同じように考えていません"
+        """
                     
-    
+
 
         colors = [p.color for p in self.get_players()]
         self.total_color = sum(colors)
@@ -262,39 +325,27 @@ class Start_Page(Page):
 
 class Universe(Page):
     form_model = 'player'
-    form_fields = ['universe']
+    form_fields = ['universe', 'meta_universe']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
         #参加者の人数をカウント
         #self.group.number += 1
         #print('＋1')
-class Universe_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_universe']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
 class Universe_result(Page):
-    @staticmethod
-    def is_displayed(player):
-        print("idは",player.id_in_group)
-        return player.id_in_group >= 3
+    pass
+    #@staticmethod
+    #def is_displayed(player):
+    #    print("idは",player.id_in_group)
+    #    return player.id_in_group >= 3
 
 
 class Color(Page):
     form_model = 'player'
-    form_fields = ['color']
+    form_fields = ['color', 'meta_color']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Color_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_color']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Color_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -458,4 +509,4 @@ class Demography(Page):
 
 
 #ページ表示の順番
-page_sequence = [Start_Page, Universe, Universe_meta, Universe_result, Color, Color_meta, Color_result, Conspiracy_theory, Conspiracy_theory_meta, Conspiracy_theory_result, Intelligence, Intelligence_meta, Intelligence_result, Dress, Dress_meta, Dress_result, Shoes, Shoes_meta, Shoes_result, Fakenews, Fakenews_meta, Fakenews_result, Tour, Tour_meta, Tour_result, Vaccine, Vaccine_meta, Vaccine_result, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
+page_sequence = [Start_Page, Universe, Universe_result, Color, Color_result, Conspiracy_theory, Conspiracy_theory_meta, Conspiracy_theory_result, Intelligence, Intelligence_meta, Intelligence_result, Dress, Dress_meta, Dress_result, Shoes, Shoes_meta, Shoes_result, Fakenews, Fakenews_meta, Fakenews_result, Tour, Tour_meta, Tour_result, Vaccine, Vaccine_meta, Vaccine_result, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
