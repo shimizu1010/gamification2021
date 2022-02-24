@@ -18,9 +18,10 @@ class Group(BaseGroup):
 
 
     total_universe = models.IntegerField()
+    total_universe_0 = models.IntegerField()
     total_meta_universe = models.IntegerField()
     universe_text = models.StringField()
-
+    universe_point = models.IntegerField()
 
     total_color = models.IntegerField()
     total_meta_color = models.IntegerField()
@@ -62,12 +63,49 @@ class Group(BaseGroup):
     vaccine_text = models.StringField()
 
 
+
     #playerオブジェクトから質問の得点を取ってきて、合計を格納
     def compute(self):
         universes = [p.universe for p in self.get_players()]
+        print(universes)
+        #print(self.number)
+        print(universes[self.number -1])
         self.total_universe = sum(universes)
+        self.total_universe_0 = self.number - self.total_universe
+        print(self.total_universe)
         meta_universes = [p.meta_universe for p in self.get_players()]
         self.total_meta_universe = sum(meta_universes)
+
+        #実装する
+        #多数派0と答えた場合
+        if meta_universes[self.number - 1] == 0:
+            print("多数派と答えている")
+            if universes[self.number - 1] == 0:
+                print("はいと答えている")
+                if self.total_universe / self.number <= 0.5:
+                    self.universe_point = 1
+                    self.universe_text = "正解！ 多数派があなたと同じように考えています"
+                else:
+                    self.universe_point = 0
+                    self.universe_text = "不正解！ 多数派があなたと同じように考えていません"
+            elif universes[self.number - 1] == 1:
+                print("いいえと答えている")
+                if self.total_universe / self.number >= 0.5:
+                    self.universe_point = 1
+                    self.universe_text = "正解！ 多数派があなたと同じように考えています"
+                else:
+                    self.universe_point = 0
+                    self.universe_text = "不正解！ 多数派があなたと同じように考えていません"
+
+            #はい0と答えた場合
+            #if universes[self.number - 1] == 0:
+                #if universes / self.number <= 0.5:
+                    #point = '正しい'
+                    #print(point)
+                #else:
+                    #point = '間違っている'
+                   # print(point)
+                    
     
 
         colors = [p.color for p in self.get_players()]

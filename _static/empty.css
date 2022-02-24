@@ -1,10 +1,3 @@
-
-{{ block title }}メタ認知ゲーム{{ endblock }}
-{{ block content }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ static 'empty.css' }}" />
 <style>
     .otree-body {
         background: #F4F5F7;
@@ -33,18 +26,3 @@
         }
 
 </style>
-
-<br/>
-<p>
-    次の質問に答えてください。
-</p>
-<br/>
-
-{{ formfields }}
-
-<br/>
-
-{{ next_button }}
-
-{{ endblock }}
-
