@@ -9,12 +9,16 @@ class Constants(BaseConstants):
     players_per_group = 500
     num_rounds = 1
 
+
 class Subsession(BaseSubsession):
     pass
 
+
+#プレイヤー共通
 class Group(BaseGroup):
     number = models.IntegerField(initial=0)
     score = models.IntegerField()
+
 
     total_universe = models.IntegerField()
     total_universe_0 = models.IntegerField()
@@ -79,7 +83,6 @@ class Group(BaseGroup):
     vaccine_point = models.IntegerField()
 
 
-
     #playerオブジェクトから質問の得点を取ってきて、合計を格納
     def compute(self):
         def cal(number, answer, meta_answer, total):
@@ -119,7 +122,6 @@ class Group(BaseGroup):
         self.total_universe = sum(universes)
         self.total_universe_0 = self.number - self.total_universe
         meta_universes = [p.meta_universe for p in self.get_players()]
-        #self.total_meta_universe = sum(meta_universes)
         self.universe_text = cal(self.number, universes, meta_universes, self.total_universe)
 
 
@@ -130,148 +132,55 @@ class Group(BaseGroup):
         self.color_text = cal(self.number, colors, meta_colors, self.total_color)
 
 
-
-        """if meta_universes[self.number - 1] == 0:
-            print("多数派と答えている")
-            if universes[self.number - 1] == 0:
-                print("はいと答えている")
-                if self.total_universe / self.number <= 0.5:
-                    self.universe_point = 1
-                    self.universe_text = "正解！ 多数派があなたと同じように考えています"
-                else:
-                    self.universe_point = 0
-                    self.universe_text = "不正解！ 多数派はあなたと同じように考えていません"
-            elif universes[self.number - 1] == 1:
-                print("いいえと答えている")
-                if self.total_universe / self.number >= 0.5:
-                    self.universe_point = 1
-                    self.universe_text = "正解！ 多数派があなたと同じように考えています"
-                else:
-                    self.universe_point = 0
-                    self.universe_text = "不正解！ 多数派はあなたと同じように考えていません"
-        elif meta_universes[self.number - 1] == 1:
-            print("少数派と答えている")
-            if universes[self.number - 1] == 0:
-                print("はいと答えている")
-                if self.total_universe / self.number >= 0.5:
-                    self.universe_point = 1
-                    self.universe_text = "正解！ 少数派があなたと同じように考えています"
-                else:
-                    self.universe_point = 0
-                    self.universe_text = "不正解！ 少数派はあなたと同じように考えていません"
-            elif universes[self.number - 1] == 1:
-                print("いいえと答えている")
-                if self.total_universe / self.number <= 0.5:
-                    self.universe_point = 1
-                    self.universe_text = "正解！ 少数派があなたと同じように考えています"
-                else:
-                    self.universe_point = 0
-                    self.universe_text = "不正解！ 少数派はあなたと同じように考えていません"
-        """
-                    
-
-
-        colors = [p.color for p in self.get_players()]
-        self.total_color = sum(colors)
-        meta_colors = [p.meta_color for p in self.get_players()]
-        self.total_meta_color = sum(meta_colors)
-        
-
         conspiracy_theorys = [p.conspiracy_theory for p in self.get_players()]
         self.total_conspiracy_theory = sum(conspiracy_theorys)
+        self.total_conspiracy_theory_0 = self.number - self.total_conspiracy_theory
         meta_conspiracy_theorys = [p.meta_conspiracy_theory for p in self.get_players()]
-        self.total_meta_conspiracy_theory = sum(meta_conspiracy_theorys)
+        self.conspiracy_theory_text = cal(self.number, conspiracy_theorys, meta_conspiracy_theorys, self.total_conspiracy_theory)
 
 
         intelligences = [p.intelligence for p in self.get_players()]
         self.total_intelligence = sum(intelligences)
+        self.total_intelligence_0 = self.number - self.total_intelligence
         meta_intelligences = [p.meta_intelligence for p in self.get_players()]
-        self.total_meta_intelligence = sum(meta_intelligences)
+        self.intelligence_text = cal(self.number, intelligences, meta_intelligences, self.total_intelligence)
 
 
         dresss = [p.dress for p in self.get_players()]
         self.total_dress = sum(dresss)
+        self.total_dress_0 = self.number - self.total_dress
         meta_dresss = [p.meta_dress for p in self.get_players()]
-        self.total_meta_dress = sum(meta_dresss)
+        self.dress_text = cal(self.number, dresss, meta_dresss, self.total_dress)
 
 
         shoess = [p.shoes for p in self.get_players()]
         self.total_shoes = sum(shoess)
+        self.total_shoes_0 = self.number - self.total_shoes
         meta_shoess = [p.meta_shoes for p in self.get_players()]
-        self.total_meta_shoes = sum(meta_shoess)
+        self.shoes_text = cal(self.number, shoess, meta_shoess, self.total_shoes)
     
 
         fakenewss = [p.fakenews for p in self.get_players()]
         self.total_fakenews = sum(fakenewss)
+        self.total_fakenews_0 = self.number - self.total_fakenews
         meta_fakenewss = [p.meta_fakenews for p in self.get_players()]
-        self.total_meta_fakenews = sum(meta_fakenewss)
+        self.fakenews_text = cal(self.number, fakenewss, meta_fakenewss, self.total_fakenews)
 
 
         tours = [p.tour for p in self.get_players()]
         self.total_tour = sum(tours)
+        self.total_tour_0 = self.number - self.total_tour
         meta_tours = [p.meta_tour for p in self.get_players()]
-        self.total_meta_tour = sum(meta_tours)
+        self.tour_text = cal(self.number, tours, meta_tours, self.total_tour)
 
 
         vaccines = [p.vaccine for p in self.get_players()]
         self.total_vaccine = sum(vaccines)
+        self.total_vaccine_0 = self.number - self.total_vaccine
         meta_vaccines = [p.meta_vaccine for p in self.get_players()]
-        self.total_meta_vaccine = sum(meta_vaccines)
+        self.vaccine_text = cal(self.number, vaccines, meta_vaccines, self.total_vaccine)
 
 
-    def result_compute(self):
-        if 0.5 <= (self.total_universe / self.number):
-            self.universe_text = '平均よりも賢いと考えている人が多数派です'
-        else :
-            self.universe_text = '平均よりも賢くないと考えている人が多数派です'
-        
-
-        if 0.5 <= (self.total_color / self.number):
-            self.color_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.color_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_conspiracy_theory / self.number):
-            self.conspiracy_theory_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.conspiracy_theory_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_intelligence / self.number):
-            self.intelligence_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.intelligence_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_dress / self.number):
-            self.dress_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.dress_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_shoes / self.number):
-            self.shoes_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.shoes_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_fakenews / self.number):
-            self.fakenews_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.fakenews_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_tour / self.number):
-            self.tour_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.tour_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
-
-
-        if 0.5 <= (self.total_vaccine / self.number):
-            self.vaccine_text = '平均よりもフェイクニュースに騙されると考えている人が多数派です'
-        else :
-            self.vaccine_text = '平均よりもフェイクニュースに騙されないと考えている人が多数派です'
 
 #プレイヤーごとの質問と答え
 class Player(BasePlayer):
@@ -295,7 +204,7 @@ class Player(BasePlayer):
     meta_dress = models.IntegerField(choices=[[0, '多数派'],[1, '少数派']], label='前の質問で、あなたが答えた回答は多数派だと想いますか、少数派だと思いますか？', widget=widgets.RadioSelect, initial=0)
 
 
-    shoes = models.IntegerField(choices=[[0, 'はい'],[1, 'いいえ']], label='このシューズの色は？', widget=widgets.RadioSelect, initial=0)
+    shoes = models.IntegerField(choices=[[0, 'グレーと緑'],[1, 'ピンクと白']], label='このシューズの色は？', widget=widgets.RadioSelect, initial=0)
     meta_shoes = models.IntegerField(choices=[[0, '多数派'],[1, '少数派']], label='前の質問で、あなたが答えた回答は多数派だと想いますか、少数派だと思いますか？', widget=widgets.RadioSelect, initial=0)
 
 
@@ -310,9 +219,9 @@ class Player(BasePlayer):
     vaccine = models.IntegerField(choices=[[0, 'はい'],[1, 'いいえ']], label ='成人になると100人に１人が罹患する病気があり、発見が遅れれば命にかかわることになります。ワクチンを打てばその病気はほぼ確実に発症しなくなることが知られています。しかしながら、ワクチンは0.0001％の確率で重篤な副作用があり、最悪の場合死に至ります。あなたはそれでもワクチンを打ちますか？', widget=widgets.RadioSelect, initial=0)
     meta_vaccine = models.IntegerField(choices=[[0, '多数派'],[1, '少数派']], label='前の質問で、あなたが答えた回答は多数派だと想いますか、少数派だと思いますか？', widget=widgets.RadioSelect, initial=0)
 
-    sex = models.IntegerField(choices=[[0, '男性'],[1, '女性'],[2, 'その他']], label ='', widget=widgets.RadioSelect, initial=0)
+    sex = models.IntegerField(choices=[[0, '男性'],[1, '女性'],[2, 'その他']], label ='あなたの性別は？', widget=widgets.RadioSelect, initial=0)
 
-    age = models.IntegerField(initial=0)
+    age = models.IntegerField(label ='あなたの年齢は？')
 
 
 #ページの定義
@@ -329,9 +238,6 @@ class Universe(Page):
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-        #参加者の人数をカウント
-        #self.group.number += 1
-        #print('＋1')
 class Universe_result(Page):
     pass
     #@staticmethod
@@ -355,17 +261,10 @@ class Color_result(Page):
 
 class Conspiracy_theory(Page):
     form_model = 'player'
-    form_fields = ['conspiracy_theory']
+    form_fields = ['conspiracy_theory', 'meta_conspiracy_theory']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Conspiracy_theory_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_conspiracy_theory']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Conspiracy_theory_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -375,17 +274,10 @@ class Conspiracy_theory_result(Page):
 
 class Intelligence(Page):
     form_model = 'player'
-    form_fields = ['intelligence']
+    form_fields = ['intelligence','meta_intelligence']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Intelligence_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_intelligence']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Intelligence_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -395,17 +287,10 @@ class Intelligence_result(Page):
 
 class Dress(Page):
     form_model = 'player'
-    form_fields = ['dress']
+    form_fields = ['dress','meta_dress']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Dress_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_dress']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Dress_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -415,17 +300,10 @@ class Dress_result(Page):
 
 class Shoes(Page):
     form_model = 'player'
-    form_fields = ['shoes']
+    form_fields = ['shoes','meta_shoes']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Shoes_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_shoes']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Shoes_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -435,17 +313,10 @@ class Shoes_result(Page):
 
 class Fakenews(Page):
     form_model = 'player'
-    form_fields = ['fakenews']
+    form_fields = ['fakenews','meta_fakenews']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Fakenews_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_fakenews']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Fakenews_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -455,17 +326,10 @@ class Fakenews_result(Page):
 
 class Tour(Page):
     form_model = 'player'
-    form_fields = ['tour']
+    form_fields = ['tour','meta_tour']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Tour_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_tour']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Tour_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -475,17 +339,10 @@ class Tour_result(Page):
 
 class Vaccine(Page):
     form_model = 'player'
-    form_fields = ['vaccine']
+    form_fields = ['vaccine','meta_vaccine']
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.compute()
-class Vaccine_meta(Page):
-    form_model = 'player'
-    form_fields = ['meta_vaccine']
-    @staticmethod
-    def before_next_page(self, timeout_happened):
-        self.group.compute()
-        self.group.result_compute()
 class Vaccine_result(Page):
     @staticmethod
     def is_displayed(player):
@@ -509,4 +366,4 @@ class Demography(Page):
 
 
 #ページ表示の順番
-page_sequence = [Start_Page, Universe, Universe_result, Color, Color_result, Conspiracy_theory, Conspiracy_theory_meta, Conspiracy_theory_result, Intelligence, Intelligence_meta, Intelligence_result, Dress, Dress_meta, Dress_result, Shoes, Shoes_meta, Shoes_result, Fakenews, Fakenews_meta, Fakenews_result, Tour, Tour_meta, Tour_result, Vaccine, Vaccine_meta, Vaccine_result, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]
+page_sequence = [Start_Page, Universe, Universe_result, Color, Color_result, Conspiracy_theory, Conspiracy_theory_result, Intelligence, Intelligence_result, Dress, Dress_result, Shoes, Shoes_result, Fakenews, Fakenews_result, Tour, Tour_result, Vaccine, Vaccine_result, Demography, Higher_Threshold_Lastpage, Lower_Threshold_Lastpage]

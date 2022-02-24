@@ -1,10 +1,5 @@
-
 {{ block title }}結果{{ endblock }}
 {{ block content }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
@@ -36,24 +31,62 @@
         box-shadow: 6px 6px 12px #c5c5c5,
                     -6px -6px 12px #ffffff;
         }
+    div{
+        text-align:center;
+    }
+    canvas{
+        margin:auto
+    }
 
 </style>
-<p>
-    結果は次のようになりました。
-</p>
+<br>
+<strong>{{ group.vaccine_text}}</strong>
+<br>
 
-<p>「{{ group.number }}」人中「{{ group.total_vaccine }}」人が「色は人間が存在してなくても世界に存在している」について「いいえ」を選択しました。</p>
 
-<!--{% if group.number >= 0 %}{% if group.number >= 1 %}あなたは少数派です{% endif %}{% endif %}-->
+<p>「成人になると100人に１人が罹患する病気があり、発見が遅れれば命にかかわることになります。ワクチンを打てばその病気はほぼ確実に発症しなくなることが知られています。しかしながら、ワクチンは0.0001％の確率で重篤な副作用があり、最悪の場合死に至ります。あなたはそれでもワクチンを打ちますか？」という質問について、{{ group.number }}人中{{ group.total_vaccine_0 }}人が「はい」と答え、{{ group.total_vaccine }}人が「いいえ」と答えました</p>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<canvas id="myChart" style="border:position: relative;  width: 400px; height: 400px"></canvas>
+<script>
+
+// グラフのタイプとか値とかを設定
+let config = {
+    type: "pie",
+    data: {
+        labels: ["ワクチンを打つ", "ワクチンを打たない"],
+        datasets: [{
+            data: [ {{ group.total_vaccine_0 }}, {{ group.total_vaccine }}],
+            backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)"
+            ]
+        }],
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: true,
+    },
+
+};
+    
+    // チャートの生成
+    window.addEventListener("load", function() {
+        let ctx = document.getElementById("myChart").getContext("2d");
+        myChart = new Chart(ctx, config);
+    }, false);
+</script>
 <br/>
-
-<p>「{{ group.number }}」人中「{{ group.total_meta_vaccine }}」人が「少数派」を選択しました。</p>
-
-<br/>
-
 
 {{ formfields }}
 
+
 {{ next_button }}
+
 
 {{ endblock }}

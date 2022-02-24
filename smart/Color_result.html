@@ -1,10 +1,5 @@
-
 {{ block title }}結果{{ endblock }}
 {{ block content }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
@@ -36,25 +31,63 @@
         box-shadow: 6px 6px 12px #c5c5c5,
                     -6px -6px 12px #ffffff;
         }
+    div{
+        text-align:center;
+    }
+    canvas{
+        margin:auto
+    }
 
 </style>
-<p>
-    結果は次のようになりました。
-</p>
+<br>
+<strong>{{ group.color_text}}</strong>
+<br>
 
-<p>「{{ group.number }}」人中「{{ group.total_color }}」人が「色は人間が存在してなくても世界に存在している」について「いいえ」を選択しました。</p>
 
-<!--{% if group.number >= 0 %}{% if group.number >= 1 %}あなたは少数派です{% endif %}{% endif %}-->
+<p>「色は人間が存在してなくても世界に存在している」という質問について、{{ group.number }}人中{{ group.total_color_0 }}人が「はい」と答え、{{ group.total_color }}人が「いいえ」と答えました</p>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<canvas id="myChart" style="border:position: relative;  width: 400px; height: 400px"></canvas>
+<script>
+
+// グラフのタイプとか値とかを設定
+let config = {
+    type: "pie",
+    data: {
+        labels: ["世界に存在している", "世界に存在していない"],
+        datasets: [{
+            data: [ {{ group.total_color_0 }}, {{ group.total_color }}],
+            backgroundColor: [
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)"
+            ]
+        }],
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: true,
+    },
+
+};
+    
+    // チャートの生成
+    window.addEventListener("load", function() {
+        let ctx = document.getElementById("myChart").getContext("2d");
+        myChart = new Chart(ctx, config);
+    }, false);
+</script>
 <br/>
-
-<p>「{{ group.number }}」人中「{{ group.total_meta_color }}」人が「少数派」を選択しました。</p>
-
-<br/>
-
 
 {{ formfields }}
 
+
 {{ next_button }}
+
 
 {{ endblock }}
 
