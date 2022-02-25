@@ -47,8 +47,30 @@ Game End
 
 <br>
 <p>あなたの多数派確率：{{ group.majority_score }}％</p>
-<p>あなたのメタ判断正解率： ％</p>
+<p>あなたのメタ判断正解率：{{ group.meta_score }}％</p>
 <p>診断</p>
+<p>{{ group.result_text }}</p>
 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+<!--<canvas id="myChart"></canvas>-->
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {{ endblock }}
+
+<!--
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['宇宙', '色', '陰謀論', '知性', 'ドレス', '靴', 'フェイクニュース','ツアー' , 'ワクチン'],
+            datasets: [{
+                label: 'マイグラフ',
+                data: [{{ group.total_universe}}, {{ group.total_color}}, {{ group.total_conspiracy_theory}}, {{ group.total_dress}}, {{ group.total_shoes}}, {{ group.total_fakenews}}, {{ group.total_tour}}, {{ group.total_vaccine}}],
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)'
+            }]
+        },
+        options: {}
+    });
+</script>
+-->

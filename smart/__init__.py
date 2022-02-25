@@ -80,7 +80,7 @@ class Group(BaseGroup):
             if meta_answer[number - 1] == 0:
                 if answer[number - 1] == 0:
                     if total / number <= 0.45:
-                        text = "正解！ 多数派1があなたと同じように考えています"
+                        text = "正解！ 多数派があなたと同じように考えています"
                     elif total / number >= 0.55:
                         text = "不正解！ 多数派はあなたと同じように考えていません"
                     else:
@@ -215,13 +215,119 @@ class Group(BaseGroup):
         total_score += cal(vaccines, self.total_vaccine, self.number)
 
         self.majority_score = int(total_score / 9 * 100)
-        print(self.majority_score)
 
 
     meta_score = models.IntegerField()
 
-    def meta_score_compute():
-        pass
+    def meta_score_compute(self):
+        total_score = 0
+        def cal(number, answer, meta_answer, total):
+            score = 0
+            if meta_answer[number - 1] == 0:
+                if answer[number - 1] == 0:
+                    if total / number <= 0.5:
+                        score += 1
+                elif answer[number - 1] == 1:
+                    if total / number >= 0.50:
+                        score += 1
+            elif meta_answer[number - 1] == 1:
+                if answer[number - 1] == 0:
+                    if total / number >= 0.50:
+                        score += 1
+                elif answer[number - 1] == 1:
+                    if total / number <= 0.45:
+                        score += 1
+            return score
+
+        universes = [p.universe for p in self.get_players()]
+        self.total_universe = sum(universes)
+        meta_universes = [p.meta_universe for p in self.get_players()]
+        total_score += cal(self.number, universes, meta_universes, self.total_universe)
+
+        colors = [p.color for p in self.get_players()]
+        self.total_color = sum(colors)
+        meta_colors = [p.meta_color for p in self.get_players()]
+        total_score += cal(self.number, colors, meta_colors, self.total_color)
+
+        conspiracy_theorys = [p.conspiracy_theory for p in self.get_players()]
+        self.total_conspiracy_theory = sum(conspiracy_theorys)
+        meta_conspiracy_theorys = [p.meta_conspiracy_theory for p in self.get_players()]
+        total_score += cal(self.number, conspiracy_theorys, meta_conspiracy_theorys, self.total_conspiracy_theory)
+
+        intelligences = [p.intelligence for p in self.get_players()]
+        self.total_intelligence = sum(intelligences)
+        meta_intelligences = [p.meta_intelligence for p in self.get_players()]
+        total_score += cal(self.number, intelligences, meta_intelligences, self.total_intelligence)
+
+        dresss = [p.dress for p in self.get_players()]
+        self.total_dress = sum(dresss)
+        meta_dresss = [p.meta_dress for p in self.get_players()]
+        total_score += cal(self.number, dresss, meta_dresss, self.total_dress)
+
+        shoess = [p.shoes for p in self.get_players()]
+        self.total_shoes = sum(shoess)
+        meta_shoess = [p.meta_shoes for p in self.get_players()]
+        total_score += cal(self.number, shoess, meta_shoess, self.total_shoes)
+
+        fakenewss = [p.fakenews for p in self.get_players()]
+        self.total_fakenews = sum(fakenewss)
+        meta_fakenewss = [p.meta_fakenews for p in self.get_players()]
+        total_score += cal(self.number, fakenewss, meta_fakenewss, self.total_fakenews)
+
+        tours = [p.tour for p in self.get_players()]
+        self.total_tour = sum(tours)
+        meta_tours = [p.meta_tour for p in self.get_players()]
+        total_score += cal(self.number, tours, meta_tours, self.total_tour)
+
+        vaccines = [p.vaccine for p in self.get_players()]
+        self.total_vaccine = sum(vaccines)
+        meta_vaccines = [p.meta_vaccine for p in self.get_players()]
+        total_score += cal(self.number, vaccines, meta_vaccines, self.total_vaccine)
+
+        self.meta_score = int(total_score / 9 * 100)
+
+    result_text = models.StringField()
+
+    def result_compute(self):
+        text = ''
+        if self.majority_score >= 80:
+            if self.meta_score >= 80:
+                text = 'あなたはごく普通の人で、自分のことをよく知っています。他の人がどう思うかを知っているのは、あなたの強みです。そして、人とは違う考え方をしてみようというきっかけになるかもしれません 同時に、ゲームを続けてみると、ここにも意外な自分の一面があるかもしれません。'
+            elif self.meta_score >= 65:
+                text = 'あなたはごく普通の人で、自分のことを十分に知っています。そして、人とは違う考え方をしてみようというきっかけになるかもしれません同時に、ゲームを続けることで、自分自身をより深く理解することができます。自分の意外な一面が見えてくるかもしれません。'
+            elif self.meta_score >= 50:
+                text = 'あなたが思っているほど、あなたはユニークでもなければ、珍しい存在でもありません。自分のセルフイメージを見直したほうがいいですよ。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+            else:
+                text = '自分のことをもっと知りたいあなたは、あなたが思っているようなユニークさや珍しさは全くありません。間違ったセルフイメージを持っていると、とても危険です。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+        elif self.majority_score >= 65:
+            if self.meta_score >= 80:
+                text = 'あなたは一般的に平凡で、自分のことをよく知っています。他の人がどう思うかを知っているのは、あなたの強みです。そして、人とは違う考え方をしてみようというきっかけになるかもしれません同時に、ゲームを続けてみると、ここにも意外な自分の一面があるかもしれません。'
+            elif self.meta_score >= 65:
+                text = 'あなたは一般的には普通で、自分のことを十分に知っています。そして、人とは違う考え方をしてみようというきっかけになるかもしれません同時に、ゲームを続けることで、自分自身をより深く理解することができます。自分の意外な一面が見えてくるかもしれません。'
+            elif self.meta_score >= 50:
+                text = 'あなたが思っているほど、あなたはユニークでもなければ、珍しい存在でもありません。自分のセルフイメージを見直したほうがいいですよ。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+            else:
+                text = '自分のことをもっと知りたいあなたは、あなたが思っているようなユニークさや珍しさは全くありません。間違ったセルフイメージを持っていると、とても危険です。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+        elif self.majority_score >= 50:
+            if self.meta_score >= 80:
+                text = 'あなたは他の人とは少し違っていて、自分のことをよく知っています。これがあなたの美点であり強みです。おめでとうございます。ゲームを続けていくと、意外な自分の一面がここにあるかもしれません。'
+            elif self.meta_score >= 65:
+                text = 'あなたは他の人とは少し違っていて、自分のことを十分に知っています。これがあなたの美点であり強みです。おめでとうございます。しかし、このゲームを通して自分に対する理解を深めることはできます。ゲームを続けることで、自分をより深く理解することができます。自分の意外な一面を発見できるかもしれません。'
+            elif self.meta_score >= 50:
+                text = 'あなたは他の人とは少し違っていますが、他の人との関係で自分を意識していないようです。あなたが思っているほど、あなたは普通ではありません。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+            else:
+                text = 'あなたは他の人とは少し違いますが、自分のユニークさを知らないままでいるのは非常に危険なことです。あなたは自分が思っているような普通の人ではありません。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+        else:
+            if self.meta_score >= 80:
+                text = '他の人とは全く違うことがあなたの美点であり、自分のユニークさをよく理解していることがあなたの強みです。おめでとうございます。ゲームを続けていくと、意外な自分の一面がここにあるかもしれません。'
+            elif self.meta_score >= 65:
+                text = '自分は他の人とは全く違うというのがあなたの美徳であり、自分のユニークさを一般的に認識しています。ゲームを続けることで、自分をより深く理解することができます。自分の意外な一面を発見できるかもしれません。'
+            elif self.meta_score >= 50:
+                text = '自分は他の人とは全く違うというのが、あなたの美徳です。しかし、あなたは自分のユニークさに気づいていないようです。あなたが思っているほど、あなたは普通ではありません。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+            else:
+                text = '自分をもっと知ろう。あなたは自分が思っているような普通の人ではありません。人とは全く違うというのは、あなたの美徳です。しかし、自分のユニークさを知らないままでいるのは、とても危険です。このゲームで自分を鍛え、他の人がどう思うかを知ることで、自分をよりよく知ることができます。'
+        self.result_text = text
+
 
 #プレイヤーごとの質問と答えの格納
 class Player(BasePlayer):
@@ -377,6 +483,8 @@ class Demography(Page):
     @staticmethod
     def before_next_page(self, timeout_happened):
         self.group.majoirty_score_compute()
+        self.group.meta_score_compute()
+        self.group.result_compute()
 
 class HigherThresholdLastpage(Page):
     pass
