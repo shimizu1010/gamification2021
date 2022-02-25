@@ -1,6 +1,5 @@
 
-{{ block title }}メタ認知ゲーム{{ endblock }}
-{{ block content }}
+{{ block title }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
@@ -36,18 +35,20 @@
         box-shadow: 6px 6px 12px #c5c5c5,
                     -6px -6px 12px #ffffff;
         }
-
+    p{
+        font-family:Helvetica;
+        font-size: 20px;
+        line-height: 1.6;
+        letter-spacing: 0;
+    }
 </style>
-<br/>
-<p>
-    次の質問に答えてください。
-</p>
-<br/>
+Game End
+<br>
 
-{{ formfields }}
-
-<br/>
-
-{{ next_button }}
-
+<br>
+<p>あなたの多数派確率：{{ group.majority_score }}％</p>
+<p>あなたのメタ判断正解率： ％</p>
+<p>診断</p>
+<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {{ endblock }}
