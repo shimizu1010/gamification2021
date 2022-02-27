@@ -2,7 +2,7 @@
 自分の判断とみんなの判断がどれくらい違っているのかが分かる調査アプリケーション
  
 # DEMO
- 
+ https://user-images.githubusercontent.com/95352024/155869581-2512cece-fcb0-466d-8a6a-29db0a063288.png
  
 # Features
  
