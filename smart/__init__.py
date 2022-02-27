@@ -164,6 +164,181 @@ class Group(BaseGroup):
         self.vaccine_text = cal(self.number, vaccines, meta_vaccines, self.total_vaccine)
 
 
+    total_point = models.IntegerField(initial=0)
+
+    def point_compute(self):
+        def cal(number, answer, meta_answer, total):
+            point = 0
+            if meta_answer[number - 1] == 0:
+                #多数派
+                if answer[number - 1] == 0:
+                    #解答0
+                    print(total /number)
+                    if total / number < 0.1:
+                        #解答0が<0.9
+                        point += 2
+                    elif total / number < 0.2:
+                        point += 4
+                    elif total / number < 0.3:
+                        point += 6
+                    elif total / number < 0.4:
+                        point += 8
+                    elif total / number < 0.45:
+                        point += 10
+                        #解答0が<0.55
+                    elif total / number < 0.55:
+                        point += 0
+                    elif total / number < 0.6:
+                        point -= 2
+                    elif total / number < 0.7:
+                        point -= 4
+                    elif total / number < 0.8:
+                        point -= 6
+                    elif total / number < 0.9:
+                        point -= 8
+                    else:
+                        point -= 10
+                        #解答0が<0.1
+                elif answer[number - 1] == 1:
+                    if total / number > 0.9:
+                        point += 2
+                    elif total / number >= 0.8:
+                        point += 4
+                    elif total / number >= 0.7:
+                        point += 6
+                    elif total / number >= 0.6:
+                        point += 8
+                    elif total / number >= 0.55:
+                        point += 10
+                    elif total / number >= 0.45:
+                        point += 0
+                    elif total / number >= 0.4:
+                        point -= 2
+                    elif total / number >= 0.3:
+                        point -= 4
+                    elif total / number >= 0.2:
+                        point -= 6
+                    elif total / number >= 0.1:
+                        point -= 8
+                    else:
+                        point -=10
+            elif meta_answer[number - 1] == 1:
+                #少数派
+                if answer[number - 1] == 0:
+                    #解答0
+                    print(total /number)
+                    if total / number > 0.9:
+                        point += 2
+                    elif total / number > 0.8:
+                        point += 4
+                    elif total / number > 0.7:
+                        point += 6
+                    elif total / number > 0.6:
+                        point += 8
+                    elif total / number > 0.55:
+                        point += 10
+                    elif total / number > 0.45:
+                        point += 0
+                    elif total / number > 0.4:
+                        point -= 2
+                    elif total / number > 0.3:
+                        point -= 4
+                    elif total / number > 0.2:
+                        point -= 6
+                    elif total / number > 0.1:
+                        point -= 8
+                    else:
+                        point -= 10
+                elif answer[number - 1] == 1:
+                    if total / number < 0.1:
+                        point += 2
+                    if total / number < 0.2:
+                        point += 4
+                    if total / number < 0.3:
+                        point += 6
+                    if total / number < 0.4:
+                        point += 8
+                    if total / number < 0.45:
+                        point += 10
+                    if total / number < 0.55:
+                        point += 0
+                    if total / number < 0.6:
+                        point -= 2
+                    if total / number < 0.7:
+                        point -= 4
+                    if total / number < 0.8:
+                        point -= 6
+                    if total / number < 0.9:
+                        point -= 8
+                    else:
+                        point -= 10
+            return point
+        
+        self.total_point = 0
+
+        universes = [p.universe for p in self.get_players()]
+        self.total_universe = sum(universes)
+        self.total_universe_0 = self.number - self.total_universe
+        meta_universes = [p.meta_universe for p in self.get_players()]
+        self.total_point += cal(self.number, universes, meta_universes, self.total_universe)
+        print(self.total_point)
+
+        colors = [p.color for p in self.get_players()]
+        self.total_color = sum(colors)
+        self.total_color_0 = self.number - self.total_color
+        meta_colors = [p.meta_color for p in self.get_players()]
+        self.total_point += cal(self.number, colors, meta_colors, self.total_color)
+        print(self.total_point)
+
+        conspiracy_theorys = [p.conspiracy_theory for p in self.get_players()]
+        self.total_conspiracy_theory = sum(conspiracy_theorys)
+        self.total_conspiracy_theory_0 = self.number - self.total_conspiracy_theory
+        meta_conspiracy_theorys = [p.meta_conspiracy_theory for p in self.get_players()]
+        self.total_point += cal(self.number, conspiracy_theorys, meta_conspiracy_theorys, self.total_conspiracy_theory)
+        print(self.total_point)
+
+        intelligences = [p.intelligence for p in self.get_players()]
+        self.total_intelligence = sum(intelligences)
+        self.total_intelligence_0 = self.number - self.total_intelligence
+        meta_intelligences = [p.meta_intelligence for p in self.get_players()]
+        self.total_point += cal(self.number, intelligences, meta_intelligences, self.total_intelligence)
+        print(self.total_point)
+
+        dresss = [p.dress for p in self.get_players()]
+        self.total_dress = sum(dresss)
+        self.total_dress_0 = self.number - self.total_dress
+        meta_dresss = [p.meta_dress for p in self.get_players()]
+        self.total_point += cal(self.number, dresss, meta_dresss, self.total_dress)
+        print(self.total_point)
+
+        shoess = [p.shoes for p in self.get_players()]
+        self.total_shoes = sum(shoess)
+        self.total_shoes_0 = self.number - self.total_shoes
+        meta_shoess = [p.meta_shoes for p in self.get_players()]
+        self.total_point += cal(self.number, shoess, meta_shoess, self.total_shoes)
+        print(self.total_point)
+
+        fakenewss = [p.fakenews for p in self.get_players()]
+        self.total_fakenews = sum(fakenewss)
+        self.total_fakenews_0 = self.number - self.total_fakenews
+        meta_fakenewss = [p.meta_fakenews for p in self.get_players()]
+        self.total_point += cal(self.number, fakenewss, meta_fakenewss, self.total_fakenews)
+        print(self.total_point)
+
+        tours = [p.tour for p in self.get_players()]
+        self.total_tour = sum(tours)
+        self.total_tour_0 = self.number - self.total_tour
+        meta_tours = [p.meta_tour for p in self.get_players()]
+        self.total_point += cal(self.number, tours, meta_tours, self.total_tour)
+        print(self.total_point)
+
+        vaccines = [p.vaccine for p in self.get_players()]
+        self.total_vaccine = sum(vaccines)
+        self.total_vaccine_0 = self.number - self.total_vaccine
+        meta_vaccines = [p.meta_vaccine for p in self.get_players()]
+        self.total_point += cal(self.number, vaccines, meta_vaccines, self.total_vaccine)
+        print(self.total_point)
+
     majority_score = models.IntegerField()
 
     def majoirty_score_compute(self):
@@ -173,8 +348,8 @@ class Group(BaseGroup):
             if answer[number - 1] == 0:
                 if total_answer / number <= 0.5:
                     score += 1
-            elif answer[number - 1] == 0:
-                if total_answer / number <= 0.5:
+            elif answer[number - 1] == 1:
+                if total_answer / number >= 0.5:
                     score += 1
             return score
         
@@ -485,6 +660,7 @@ class Demography(Page):
         self.group.majoirty_score_compute()
         self.group.meta_score_compute()
         self.group.result_compute()
+        self.group.point_compute()
 
 class HigherThresholdLastpage(Page):
     pass
