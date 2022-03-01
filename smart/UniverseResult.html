@@ -1,4 +1,3 @@
-
 {{ block title }}結果{{ endblock }}
 {{ block content }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,54 +41,13 @@
 <br>
 <strong>{{ group.universe_text}}</strong>
 <br>
-
-
-<p>「この宇宙は究極的には素粒子やその間に働く力など物理的なものに尽きており非物理的なものなど存在しない」という質問について、{{ group.number }}人中{{ group.total_universe_0 }}人が「はい」と答え、{{ group.total_universe }}人が「いいえ」と答えました</p>
-
-
-
-
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-
-<canvas id="myChart" style="border:position: relative;  width: 400px; height: 400px"></canvas>
-<script>
-
-// グラフのタイプとか値とかを設定
-let config = {
-    type: "pie",
-    data: {
-        labels: ["非物理的なものなど存在しない", "非物理的なものは存在する"],
-        datasets: [{
-            data: [ {{ group.total_universe_0 }}, {{ group.total_universe }}],
-            backgroundColor: [
-                "rgb(255, 99, 132)",
-                "rgb(54, 162, 235)"
-            ]
-        }],
-    },
-    options: {
-        responsive: false,
-        maintainAspectRatio: true,
-    },
-
-};
-    
-    // チャートの生成
-    window.addEventListener("load", function() {
-        let ctx = document.getElementById("myChart").getContext("2d");
-        myChart = new Chart(ctx, config);
-    }, false);
-</script>
-<br/>
+<br>
+<strong>得点は{{ group.universe_point}}点</strong>
+<br>
+<br>
 
 {{ formfields }}
 
-
 {{ next_button }}
-
-
-
-
 
 {{ endblock }}

@@ -4,7 +4,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
 
-
 <style>
     .otree-body {
         background: #F4F5F7;
@@ -42,51 +41,13 @@
 <br>
 <strong>{{ group.dress_text}}</strong>
 <br>
-
-
-<p>「このドレスの色は？」という質問について、{{ group.number }}人中{{ group.total_dress_0 }}人が「白と金」と答え、{{ group.total_dress }}人が「青と黒」と答えました</p>
-
-
-
-
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-
-<canvas id="myChart" style="border:position: relative;  width: 400px; height: 400px"></canvas>
-<script>
-
-// グラフのタイプとか値とかを設定
-let config = {
-    type: "pie",
-    data: {
-        labels: ["白と金", "青と黒"],
-        datasets: [{
-            data: [ {{ group.total_dress_0 }}, {{ group.total_dress }}],
-            backgroundColor: [
-                "rgb(255, 99, 132)",
-                "rgb(54, 162, 235)"
-            ]
-        }],
-    },
-    options: {
-        responsive: false,
-        maintainAspectRatio: true,
-    },
-
-};
-    
-    // チャートの生成
-    window.addEventListener("load", function() {
-        let ctx = document.getElementById("myChart").getContext("2d");
-        myChart = new Chart(ctx, config);
-    }, false);
-</script>
-<br/>
+<br>
+<strong>得点は{{ group.dress_point}}点</strong>
+<br>
+<br>
 
 {{ formfields }}
 
-
 {{ next_button }}
-
 
 {{ endblock }}
